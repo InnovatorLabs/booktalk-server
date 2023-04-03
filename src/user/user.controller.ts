@@ -10,9 +10,4 @@ export class UserController {
   signin(@Body() signinRequest: SigninRequestDto) {
     return this.userService.signin(signinRequest);
   }
-
-  @Get('oauthKakao')
-  oauthKakao(@Query('code') code: string) {
-    return this.userService.oauthKakao(code);
-  }
 }

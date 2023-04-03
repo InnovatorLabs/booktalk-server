@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { AxiosRequestConfig } from 'axios';
 import { catchError, map } from 'rxjs';
 import { KakaoUser } from '../dtos/kakao.response.dto';
-import { User } from '../entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 @Injectable()
 export class AuthKakaoService {
@@ -15,7 +15,7 @@ export class AuthKakaoService {
 
   /* 
     kakao 인가코드 받기 테스트 URL
-    https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=1953bdb9655fc90f52a9e20a19d820f8&redirect_uri=http://localhost:3000/user/oauthKakao
+    https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=1953bdb9655fc90f52a9e20a19d820f8&redirect_uri=http://localhost:3000/auth/oauthKakao
   */
   oauthKakao(code: string) {
     const requestConfig: AxiosRequestConfig = {
@@ -64,7 +64,7 @@ export class AuthKakaoService {
 
     return {
       type: 'kakao',
-      uid: kakaoUser.id,
+      uid: kakaoUser.id.toString(),
       nickname: kakaoUser.properties.nickname,
       email: kakaoUser.kakao_account.email ?? null,
       profile_image: kakaoUser.properties.profile_image,

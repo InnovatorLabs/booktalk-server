@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
-import { AuthKakaoService } from './social/auth-kakao.service';
-import { AuthNaverService } from './social/auth-naver.service';
 import { HttpModule } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './entities/user.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [
+    forwardRef(() => AuthModule),
     HttpModule,
     MongooseModule.forFeature([
       {
@@ -18,6 +18,6 @@ import { User, UserSchema } from './entities/user.entity';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, AuthKakaoService, AuthNaverService],
+  providers: [UserService],
 })
 export class UserModule {}
