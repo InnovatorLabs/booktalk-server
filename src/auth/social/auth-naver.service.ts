@@ -16,12 +16,7 @@ export class AuthNaverService {
     naver 로그인 인증 요청 테스트 URL
     https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=8uX_S5lQXAh7ySGV5cO0&state=STATE_STRING&redirect_uri=http://127.0.0.1:3000/auth/oauthNaver
   */
-  oauthNaver(
-    state: string,
-    code?: string,
-    error?: string,
-    error_description?: string,
-  ) {
+  oauthNaver(state: string, code?: string) {
     const params = {
       grant_type: 'authorization_code',
       client_id: this.config.get('NAVER_CLIENT_ID'),
@@ -38,9 +33,8 @@ export class AuthNaverService {
         map((response) => {
           return response.data;
         }),
-        catchError((err) => {
-          console.log(err);
-          throw new UnauthorizedException('Tokens do not match.');
+        catchError((error) => {
+          throw new UnauthorizedException(error.response.data.message);
         }),
       );
   }
@@ -58,8 +52,8 @@ export class AuthNaverService {
         map((response) => {
           return response.data;
         }),
-        catchError(() => {
-          throw new UnauthorizedException('Tokens do not match.');
+        catchError((error) => {
+          throw new UnauthorizedException(error.response.data.message);
         }),
       )
       .toPromise();

@@ -25,7 +25,7 @@ export class AuthKakaoService {
       params: {
         grant_type: 'authorization_code',
         client_id: this.config.get('KAKAO_REST_API_KEY'),
-        redirect_uri: this.config.get('REDIRECT_URI'),
+        redirect_uri: this.config.get('KAKAO_REDIRECT_URI'),
         code: code,
       },
     };
@@ -36,9 +36,8 @@ export class AuthKakaoService {
         map((response) => {
           return response.data;
         }),
-        catchError((err) => {
-          console.log(err);
-          throw new UnauthorizedException('Tokens do not match.');
+        catchError((error) => {
+          throw new UnauthorizedException(error.response.data.msg);
         }),
       );
   }
@@ -56,8 +55,8 @@ export class AuthKakaoService {
         map((response) => {
           return response.data;
         }),
-        catchError(() => {
-          throw new UnauthorizedException('Tokens do not match.');
+        catchError((error) => {
+          throw new UnauthorizedException(error.response.data.msg);
         }),
       )
       .toPromise();

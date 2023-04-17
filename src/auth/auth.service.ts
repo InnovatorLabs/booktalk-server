@@ -1,5 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AuthType, SigninRequestDto } from 'src/user/dtos/signin.request.dto';
+import {
+  AUTH_TYPE,
+  SocialSigninRequestDto,
+} from 'src/user/dtos/signin.request.dto';
 import { AuthKakaoService } from './social/auth-kakao.service';
 import { AuthNaverService } from './social/auth-naver.service';
 
@@ -10,16 +13,14 @@ export class AuthService {
     private authNaverService: AuthNaverService,
   ) {}
 
-  getUserInfo(signinRequestDto: SigninRequestDto) {
+  getUserInfo(signinRequestDto: SocialSigninRequestDto) {
     const { authType, token } = signinRequestDto;
 
     switch (authType) {
-      case AuthType.KAKAO:
+      case AUTH_TYPE.KAKAO:
         return this.authKakaoService.getUserInfo(token);
-      case AuthType.NAVER:
+      case AUTH_TYPE.NAVER:
         return this.authNaverService.getUserInfo(token);
-      //   case AuthType.Google:
-      //     return this.authAppleService.getCertified(token);
       default:
         throw new BadRequestException('The authType is wrong.');
     }

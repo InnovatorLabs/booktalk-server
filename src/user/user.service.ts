@@ -1,15 +1,11 @@
-import {
-  BadRequestException,
-  forwardRef,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AuthType, SigninRequestDto } from './dtos/signin.request.dto';
+import {
+  GeneralSigninRequestDto,
+  SocialSigninRequestDto,
+} from './dtos/signin.request.dto';
 import { User, UserDocument } from './entities/user.entity';
-import { AuthKakaoService } from '../auth/social/auth-kakao.service';
-import { AuthNaverService } from '../auth/social/auth-naver.service';
 import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
@@ -20,11 +16,26 @@ export class UserService {
     private authService: AuthService,
   ) {}
 
-  async signin(signinRequestDto: SigninRequestDto) {
+  async socialSignin(signinRequestDto: SocialSigninRequestDto) {
     const userInfo = await this.authService.getUserInfo(signinRequestDto);
-    console.log(userInfo);
 
-    const saveAccount = await new this.userModel(userInfo);
+    const user = await this.findUserByUid(userInfo.uid);
+    if (user) {
+      return user;
+    }
+    return this.createAccount(userInfo);
+  }
+
+  async findUserByUid(uid: string) {
+    return await this.userModel.findOne({ uid }).exec();
+  }
+
+  async findUserByEmail(email: string) {
+    return await this.userModel.findOne({ email }).exec();
+  }
+
+  createAccount(user: User): Promise<User> {
+    const saveAccount = new this.userModel(user);
     return saveAccount.save();
   }
 }
