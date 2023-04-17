@@ -29,3 +29,19 @@ export class SocialSigninRequestDto {
   @IsNotEmpty()
   token: string;
 }
+
+export class GeneralSigninRequestDto {
+  @ApiProperty({
+    example: 'zsunn96@gmail.com',
+    description: '이메일 주소',
+  })
+  @IsNotEmpty()
+  email: string;
+
+  @ApiProperty({
+    example: 'qlalfqjsgh486',
+    description: '로그인 비밀번호',
+  })
+  @IsNotEmpty()
+  password: string;
+}

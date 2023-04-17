@@ -9,7 +9,7 @@ export class AuthGoogleService {
     private userService: UserService,
   ) {}
 
-  async oauthGoogle(user: User) {
+  async oauthGoogle(user: User): Promise<User> {
     const userInfo = await this.userService.findUserByUid(user.uid);
 
     if (userInfo) {

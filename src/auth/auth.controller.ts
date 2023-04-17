@@ -5,7 +5,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AuthGoogleService } from './social/auth-google.service';
 import { GetUser } from './auth.decorator';
 import { User } from 'src/user/entities/user.entity';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -14,6 +16,10 @@ export class AuthController {
     private authGoogleService: AuthGoogleService,
   ) {}
 
+  @ApiOperation({
+    summary: '구글 로그인 페이지 이동',
+    description: '구글 로그인 페이지 이동합니다.',
+  })
   @Get('google')
   @UseGuards(AuthGuard('google'))
   signinGoogle(@Req() req: Request) {
