@@ -62,7 +62,7 @@ export class AuthKakaoService {
       .toPromise();
 
     return {
-      type: 'kakao',
+      type: 'KAKAO',
       uid: kakaoUser.id.toString(),
       nickname: kakaoUser.properties.nickname,
       email: kakaoUser.kakao_account.email ?? null,

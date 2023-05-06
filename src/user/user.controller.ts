@@ -1,10 +1,19 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiExcludeEndpoint,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   GeneralSigninRequestDto,
   SocialSigninRequestDto,
 } from './dtos/signin.request.dto';
 import { UserService } from './user.service';
+import { SignupRequestDto } from './dtos/signup.request.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from '../auth/auth.decorator';
+import { User } from './entities/user.entity';
 
 @ApiTags('User')
 @Controller('user')
@@ -21,6 +30,13 @@ export class UserController {
     return this.userService.socialSignin(signinRequest);
   }
 
+  @ApiExcludeEndpoint()
+  @Get('login/google')
+  @UseGuards(AuthGuard('google'))
+  oauthGoogle(@GetUser() user: User) {
+    return this.userService.loginGoogle(user);
+  }
+
   @ApiOperation({
     summary: '일반 로그인',
     description: '일반 로그인으로 로그인합니다.',
@@ -29,5 +45,15 @@ export class UserController {
   @Post('signin/general')
   generalSignin(@Body() signinRequest: GeneralSigninRequestDto) {
     return this.userService.generalSignin(signinRequest);
+  }
+
+  @ApiOperation({
+    summary: '회원가입',
+    description: '회원가입합니다.',
+  })
+  @ApiBody({ type: SignupRequestDto })
+  @Post('signup')
+  createAccount(@Body() signupRequestDto: SignupRequestDto) {
+    return this.userService.createAccount(signupRequestDto);
   }
 }

@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { catchError, map, pluck } from 'rxjs';
+import { catchError, map } from 'rxjs';
 import { User } from 'src/user/entities/user.entity';
 import { NaverUser } from '../dtos/naver.response.dto';
 
@@ -59,7 +59,7 @@ export class AuthNaverService {
       .toPromise();
 
     return {
-      type: 'naver',
+      type: 'NAVER',
       uid: naverUser.response.id,
       nickname: naverUser.response.nickname,
       email: naverUser.response.email ?? null,

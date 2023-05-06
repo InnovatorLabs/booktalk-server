@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty } from 'class-validator';
 
 export const AUTH_TYPE = {
-  COMMON: 'COMMON',
+  GENERAL: 'GENERAL',
   KAKAO: 'KAKAO',
   NAVER: 'NAVER',
   GOOGLE: 'GOOGLE',

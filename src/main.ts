@@ -1,5 +1,5 @@
-import { HttpResponseInterceptor } from './common/http-response.interceptor';
-import { HttpExceptionFilter } from './common/http-exception.filter';
+import { HttpResponseInterceptor } from './common/http/http-response.interceptor';
+import { HttpExceptionFilter } from './common/http/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -9,7 +9,7 @@ import helmet from 'helmet';
 
 const API_NAME = 'BookTalk API';
 const API_CURRENT_VERSION = '0.0.1';
-const SWAGGER_URL = 'docs/swagger-ui';
+const SWAGGER_URL = 'api-docs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

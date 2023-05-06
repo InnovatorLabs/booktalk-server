@@ -10,10 +10,10 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class User {
-  @Prop({ required: true })
+  @Prop({ required: true, defaultOptions: 'GENERAL' })
   type: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   uid: string;
 
   @Prop({ required: true })
@@ -22,10 +22,10 @@ export class User {
   @Prop({ required: true })
   email: string;
 
-  @Prop()
-  profile_image: string;
+  @Prop({ required: false })
+  profile_image?: string;
 
-  @Prop()
+  @Prop({ required: false })
   password?: string;
 }
 
