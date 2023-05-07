@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { Post } from '../../post/entities/post.entity';
 
 export type UserDocument = User & Document;
 
@@ -27,6 +29,13 @@ export class User {
 
   @Prop({ required: false })
   password?: string;
+
+  @Prop({
+    required: false,
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Post',
+  })
+  posts?: Post[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

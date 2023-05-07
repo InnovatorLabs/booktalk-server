@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { PostModule } from './post/post.module';
+import { GatheringModule } from './gathering/gathering.module';
 import Joi from 'joi';
 
 @Module({
@@ -27,6 +29,8 @@ import Joi from 'joi';
     }),
     UserModule,
     AuthModule,
+    PostModule,
+    GatheringModule,
   ],
   controllers: [],
   providers: [],
