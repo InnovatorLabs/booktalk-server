@@ -15,11 +15,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
 
-  app.use(helmet());
-  app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new HttpResponseInterceptor());
-
   // Swagger 문서 설정
   const options = new DocumentBuilder()
     .setTitle(API_NAME)
@@ -28,6 +23,11 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(SWAGGER_URL, app, document);
+
+  app.use(helmet());
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalInterceptors(new HttpResponseInterceptor());
 
   const port = configService.get('APP_PORT');
 
